@@ -4,8 +4,20 @@ import './StudentsPage.css';
 
 function StudentsPage() {
   const [students, setStudents] = useState([
-    { id: 1, name: 'Ayesha Khan', email: 'ayesha.khan@example.com', department: 'Computer Science', age: 20 },
-    { id: 2, name: 'Bilal Ahmed', email: 'bilal.ahmed@example.com', department: 'Software Engineering', age: 22 },
+    {
+      id: 1,
+      name: 'Ayesha Khan',
+      email: 'ayesha.khan@example.com',
+      department: 'Computer Science',
+      age: 20,
+    },
+    {
+      id: 2,
+      name: 'Bilal Ahmed',
+      email: 'bilal.ahmed@example.com',
+      department: 'Software Engineering',
+      age: 22,
+    },
   ]);
 
   const [formData, setFormData] = useState({
@@ -104,7 +116,9 @@ function StudentsPage() {
               value={formData.department}
               onChange={handleChange}
             />
-            {errors.department && <span className="error-text">{errors.department}</span>}
+            {errors.department && (
+              <span className="error-text">{errors.department}</span>
+            )}
           </div>
 
           <div className="form-field">
