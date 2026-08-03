@@ -15,3 +15,28 @@ export const createStudent = async (req, res) => {
 
   res.status(201).json(student);
 };
+
+export const getAllStudents = async (req, res) => {
+  const students = await prisma.student.findMany();
+
+  res.status(200).json(students);
+};
+
+
+export const getStudentById = async (req, res) => {
+  const { id } = req.params;
+
+  const student = await prisma.student.findUnique({
+    where: {
+      id: Number(id),
+    },
+  });
+
+  if (!student) {
+    return res.status(404).json({
+      message: "Student not found",
+    });
+  }
+
+  res.status(200).json(student);
+};
