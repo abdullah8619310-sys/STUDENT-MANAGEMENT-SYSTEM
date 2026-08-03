@@ -35,3 +35,19 @@
 - Verified database connection with Neon PostgreSQL
 - Tested Prisma queries successfully
 - Confirmed Prisma 7 runtime setup works with the Express backend
+
+## Week 2 - Task 3: Student CRUD REST API Implementation
+
+**Prompt used:**
+"Guide me through building a REST CRUD API for the Student Management System backend using Express 5, Prisma 7, and PostgreSQL. Implement proper REST resource design, routing, controllers, database operations, status codes, and error handling."
+
+**AI-assisted output reviewed and verified:**
+- Designed REST resources for Student entity
+- Created Express Router for student endpoints
+- Implemented POST /api/students endpoint
+- Implemented GET /api/students and GET /api/students/:id endpoints
+- Implemented PUT and DELETE student endpoints
+- Connected controllers with Prisma Client
+- Added Prisma error handling middleware
+- Tested CRUD operations with PostgreSQL database
+- Verified API responses and status codes
