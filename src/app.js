@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import studentRoutes from "./routes/student.routes.js";
 
 const app = express();
 
@@ -14,5 +15,8 @@ app.get("/api/health", (req, res) => {
     message: "Server is running"
   });
 });
+
+// Student routes
+app.use("/api/students", studentRoutes);
 
 export default app;
