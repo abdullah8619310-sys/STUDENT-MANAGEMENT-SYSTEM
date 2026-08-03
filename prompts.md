@@ -16,15 +16,13 @@
 - Added health-check endpoint (/api/health)
 - Tested API response successfully
 
-## Week 2 - Task 2: Prisma ORM & Initial Database Migration
+#c
 
-**Prompt used:**
-"Guide me through setting up Prisma ORM with PostgreSQL for the Student Management System. Explain ORM concepts, configure Prisma, define User and Student models with a one-to-many relationship, and create the initial migration."
+### Task 2 Progress Update
 
-**AI-assisted output reviewed and verified:**
-- Installed Prisma CLI and Prisma Client
-- Connected Prisma to Neon PostgreSQL
-- Defined User and Student models
-- Added one-to-many User → Student relationship
-- Created and applied the initial Prisma migration
+**Additional AI-assisted steps completed:**
+- Verified Prisma 7 migration workflow
+- Confirmed successful connection with Neon PostgreSQL
+- Created database tables through Prisma migration
 - Generated Prisma Client successfully
+- Reviewed Prisma 7 changes compared to older Prisma versions
