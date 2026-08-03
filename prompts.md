@@ -90,3 +90,87 @@
 - Added `lint` and `format` scripts in `package.json`
 - Ran `npm run lint` successfully with zero errors
 - Ran `npm run format` successfully to format project files
+
+---
+
+## Week 2 - Backend Unit Testing with Vitest
+
+**Prompt used:**
+"Guide me through writing AI-assisted unit tests for my Express 5 + Prisma 7 backend. Use Vitest with mocked Prisma Client so tests verify controller logic without depending on the real database."
+
+**AI-assisted output reviewed and verified:**
+
+* Installed testing dependencies:
+  - Vitest
+  - vitest-mock-extended
+  - Supertest
+
+* Configured Vitest testing environment for the Express backend
+
+* Added test scripts in `package.json`:
+  - `npm test` for running tests once
+  - `npm run test:watch` for watch mode
+
+* Created Prisma Client mock using `vitest-mock-extended`
+
+* Added reusable Prisma mock file:
+  - `src/config/__mocks__/db.js`
+
+* Mocked Prisma Client to avoid using the real PostgreSQL/Neon database during unit tests
+
+* Created the first unit test file:
+  - `src/controllers/student.controller.test.js`
+
+* Implemented and tested `createStudent` controller success case
+
+* Verified controller behavior using mocked Prisma responses
+
+* Confirmed unit tests run successfully with:
+  - `npm test`
+
+* Verified tests pass without database dependency
+
+---
+
+## Week 2 - Backend Unit Testing with Vitest (Controller Tests)
+
+**Prompt used:**
+"Guide me through writing AI-assisted unit tests for my Express 5 + Prisma 7 backend. Use Vitest with mocked Prisma Client so tests verify controller logic without depending on the real database."
+
+**AI-assisted output reviewed and verified:**
+
+* Installed and configured Vitest testing framework
+* Added Vitest scripts for running tests
+* Configured Prisma Client mocking using `vitest-mock-extended`
+* Created reusable Prisma mock inside `src/config/__mocks__/db.js`
+* Created unit test for `createStudent` controller success scenario
+* Verified Prisma `create` method is called with correct data
+* Verified HTTP 201 response and returned student object
+* Improved test isolation by replacing `vi.clearAllMocks()` with `mockReset(prisma)`
+* Created unit test for `getStudentById` controller not-found scenario
+* Verified controller returns HTTP 404 when student does not exist
+* Confirmed tests run successfully without database dependency
+
+---
+
+## Week 2 - Backend Unit Testing with Vitest (Controller Test Coverage Expansion)
+
+**Prompt used:**
+"Guide me through expanding AI-assisted unit tests for my Express 5 + Prisma 7 backend using Vitest. Continue testing controller logic with mocked Prisma Client. Focus on testing different controller branches and verify responses without depending on the real database."
+
+**AI-assisted output reviewed and verified:**
+
+* Reviewed existing `student.controller.test.js` structure
+* Improved Prisma mock reset handling using `mockReset(prisma)` from `vitest-mock-extended`
+* Verified Prisma mocking works correctly with `vi.mock("../config/db.js")`
+* Added `getStudentById` controller test cases:
+  * Verified 404 response when student is not found
+  * Verified 200 response when student exists
+  * Verified correct Prisma `findUnique` query parameters
+* Added `getAllStudents` controller test cases:
+  * Verified successful response with student list
+  * Verified successful response with empty student array
+  * Verified `findMany()` is called correctly
+* Confirmed all unit tests pass successfully using `npm test`
+* Ensured controller logic is tested independently without database dependency
+
