@@ -40,3 +40,37 @@ export const getStudentById = async (req, res) => {
 
   res.status(200).json(student);
 };
+
+export const updateStudent = async (req, res) => {
+  const { id } = req.params;
+
+  const { name, email, rollNumber, department, userId } = req.body;
+
+  const student = await prisma.student.update({
+    where: {
+      id: Number(id),
+    },
+    data: {
+      name,
+      email,
+      rollNumber,
+      department,
+      userId,
+    },
+  });
+
+  res.status(200).json(student);
+};
+
+
+export const deleteStudent = async (req, res) => {
+  const { id } = req.params;
+
+  await prisma.student.delete({
+    where: {
+      id: Number(id),
+    },
+  });
+
+  res.status(204).send();
+};
