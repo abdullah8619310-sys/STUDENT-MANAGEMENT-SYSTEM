@@ -1,4 +1,4 @@
-import { prisma } from '../config/db.js';
+import { prisma } from "../config/db.js";
 
 export const createStudent = async (req, res) => {
   const { name, email, rollNumber, department, userId } = req.body;
@@ -21,7 +21,6 @@ export const getAllStudents = async (req, res) => {
 
   res.status(200).json(students);
 };
-
 
 export const getStudentById = async (req, res) => {
   const { id } = req.params;
@@ -61,7 +60,6 @@ export const updateStudent = async (req, res) => {
 
   res.status(200).json(student);
 };
-
 
 export const deleteStudent = async (req, res) => {
   const { id } = req.params;

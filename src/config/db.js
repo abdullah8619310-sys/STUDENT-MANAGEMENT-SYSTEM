@@ -1,6 +1,6 @@
-import 'dotenv/config';
-import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient } from '../generated/prisma/client.js';
+import "dotenv/config";
+import { PrismaPg } from "@prisma/adapter-pg";
+import { PrismaClient } from "../generated/prisma/client.js";
 
 // Create PostgreSQL adapter using Neon DATABASE_URL
 const adapter = new PrismaPg({

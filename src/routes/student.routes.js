@@ -14,35 +14,16 @@ import {
   updateStudentSchema,
 } from "../validators/student.validator.js";
 
-
 const router = Router();
 
-router.post(
-  "/",
-  validate(createStudentSchema),
-  createStudent
-);
+router.post("/", validate(createStudentSchema), createStudent);
 
-router.get(
-  "/",
-  getAllStudents
-);
+router.get("/", getAllStudents);
 
-router.get(
-  "/:id",
-  getStudentById
-);
+router.get("/:id", getStudentById);
 
-router.put(
-  "/:id",
-  validate(updateStudentSchema),
-  updateStudent
-);
+router.put("/:id", validate(updateStudentSchema), updateStudent);
 
-router.delete(
-  "/:id",
-  deleteStudent
-);
-
+router.delete("/:id", deleteStudent);
 
 export default router;

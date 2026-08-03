@@ -13,7 +13,7 @@ app.use(express.json());
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     status: "ok",
-    message: "Server is running"
+    message: "Server is running",
   });
 });
 
