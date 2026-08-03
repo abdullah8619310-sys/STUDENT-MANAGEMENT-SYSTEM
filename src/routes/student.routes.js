@@ -1,10 +1,8 @@
 import { Router } from 'express';
+import { createStudent } from '../controllers/student.controller.js';
 
 const router = Router();
 
-// POST /api/students
-router.post('/', (req, res) => {
-  res.status(501).json({ message: 'Not implemented yet' });
-});
+router.post('/', createStudent);
 
 export default router;
