@@ -54,3 +54,39 @@
 - Added Prisma error handling middleware
 - Tested CRUD operations with PostgreSQL database
 - Verified API responses and status codes
+
+---
+
+## Week 2 - Input Validation with Zod
+
+**Prompt used:**
+"Guide me through adding input validation and error handling to my Express 5 backend using Zod. Implement reusable validation schemas, middleware-based validation, and proper HTTP 400 responses for invalid requests."
+
+**AI-assisted output reviewed and verified:**
+
+- Installed and configured Zod validation library
+- Created Student validation schema using Zod
+- Implemented reusable validation middleware using `safeParse`
+- Added structured validation error responses with HTTP 400 status
+- Connected validation middleware with Student POST and PUT routes
+- Tested invalid requests with missing fields and incorrect data types
+- Tested valid requests after adding validation
+- Verified that invalid data is rejected before reaching Prisma/database
+
+---
+
+## Week 2 - ESLint and Prettier Configuration
+
+**Prompt used:**
+"Guide me through configuring ESLint and Prettier for my Express 5 + Node.js backend project using ES Modules. Set up a modern ESLint flat configuration, ignore generated Prisma files, and ensure the project passes linting successfully."
+
+**AI-assisted output reviewed and verified:**
+
+- Installed ESLint, Prettier, and required configuration packages
+- Created `eslint.config.js` using the modern ESLint flat config approach
+- Configured ESLint for Node.js and ES Modules environment
+- Added ignore rules for generated Prisma files and node_modules
+- Fixed linting issues in backend files
+- Added `lint` and `format` scripts in `package.json`
+- Ran `npm run lint` successfully with zero errors
+- Ran `npm run format` successfully to format project files
