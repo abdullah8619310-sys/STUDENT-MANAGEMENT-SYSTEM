@@ -199,3 +199,100 @@
 * Confirmed all tests run successfully without database dependency
 
 **Test verification:**
+
+## Week 2 - Backend Testing Progress Update
+
+Completed:
+
+* Added Prisma mock setup using vitest-mock-extended
+* Created reusable mock Prisma client:
+  - src/config/__mocks__/db.js
+
+Controller Unit Tests:
+* createStudent success test
+* getStudentById success and not-found tests
+* getAllStudents success and empty-array tests
+* updateStudent success test
+
+Error Handling Tests:
+* Added errorHandler middleware unit tests
+* Tested Prisma P2002 duplicate error
+* Tested Prisma P2025 not-found error
+* Tested unknown server errors
+
+Supertest Setup:
+* Verified Express app testing without starting server
+* Added GET /api/health API smoke test
+* Confirmed routing and middleware pipeline works
+
+Current Verification:
+* npm test ✅
+* 10 tests passing
+
+## Supertest Integration Testing
+
+**AI-assisted output reviewed and verified:**
+
+* Verified Express app structure for Supertest compatibility
+* Confirmed `app.js` exports Express app without starting the server
+* Created Supertest smoke test for:
+  - GET /api/health
+
+* Created route-level integration tests for Student APIs
+* Used mocked Prisma Client to avoid real database dependency
+
+### Tested API Flows:
+
+#### POST /api/students
+
+* Tested successful student creation
+* Verified:
+  - Express routing
+  - Validation middleware
+  - Controller execution
+  - Mocked Prisma response
+  - HTTP 201 response
+
+* Tested duplicate email scenario:
+  - Prisma P2002 error simulation
+  - Verified Express error forwarding
+  - Verified errorHandler returns HTTP 409 response
+
+
+#### GET /api/students
+
+* Tested successful student list retrieval
+* Verified:
+  - Route configuration
+  - Controller execution
+  - Prisma findMany mock response
+  - HTTP 200 response
+
+
+#### PUT /api/students/:id
+
+* Tested updating a non-existent student
+* Simulated Prisma P2025 error
+* Verified:
+  - Controller error forwarding
+  - Express 5 async error handling
+  - errorHandler returns HTTP 404 response
+
+
+## Final Testing Verification
+
+Testing stack:
+
+* Vitest
+* Supertest
+* vitest-mock-extended
+* Mocked Prisma Client
+
+
+Final Test Result:
+
+Test Files: 4 passed  
+Tests: 14 passed ✅
+
+
+All Week 2 backend testing tasks have been completed successfully.
