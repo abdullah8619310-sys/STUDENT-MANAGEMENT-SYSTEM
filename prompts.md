@@ -174,3 +174,28 @@
 * Confirmed all unit tests pass successfully using `npm test`
 * Ensured controller logic is tested independently without database dependency
 
+---
+
+## Week 2 - Backend Unit Testing with Vitest (Controller & Error Handler Tests)
+
+**Prompt used:**
+"Guide me through writing AI-assisted unit tests for my Express 5 + Prisma 7 backend. Use Vitest with mocked Prisma Client so tests verify controller logic without depending on the real database. Also test error handling middleware separately."
+
+**AI-assisted output reviewed and verified:**
+
+* Installed and configured Vitest testing framework
+* Added test scripts for running backend tests
+* Configured Prisma Client mocking using `vitest-mock-extended`
+* Created reusable Prisma mock in `src/config/__mocks__/db.js`
+* Implemented controller unit tests using mocked Prisma responses
+* Tested `createStudent` controller success scenario
+* Tested `getStudentById` success and not-found scenarios
+* Tested `getAllStudents` response with existing students and empty results
+* Tested `updateStudent` success scenario
+* Created `errorHandler.test.js` for middleware error handling
+* Verified Prisma P2002 duplicate error response (409)
+* Verified Prisma P2025 not-found error response (404)
+* Verified unknown error response (500)
+* Confirmed all tests run successfully without database dependency
+
+**Test verification:**

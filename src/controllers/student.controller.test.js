@@ -4,6 +4,7 @@ import {
   createStudent,
   getStudentById,
   getAllStudents,
+  updateStudent,
 } from "./student.controller.js";
 import { prisma } from "../config/db.js";
 
@@ -175,5 +176,50 @@ describe("getAllStudents controller", () => {
     expect(prisma.student.findMany).toHaveBeenCalledWith();
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith([]);
+  });
+});
+
+describe("updateStudent controller", () => {
+  it("should update a student and return 200", async () => {
+    const updatedStudent = {
+      id: 1,
+      name: "Sara Khan Updated",
+      email: "sara@example.com",
+      rollNumber: "BSIT-004",
+      department: "Computer Science",
+      userId: 1,
+    };
+
+    prisma.student.update.mockResolvedValue(updatedStudent);
+
+    const req = {
+      params: {
+        id: "1",
+      },
+      body: {
+        name: "Sara Khan Updated",
+        email: "sara@example.com",
+        rollNumber: "BSIT-004",
+        department: "Computer Science",
+        userId: 1,
+      },
+    };
+
+    const res = {
+      status: vi.fn().mockReturnThis(),
+      json: vi.fn(),
+    };
+
+    await updateStudent(req, res);
+
+    expect(prisma.student.update).toHaveBeenCalledWith({
+      where: {
+        id: 1,
+      },
+      data: req.body,
+    });
+
+    expect(res.status).toHaveBeenCalledWith(200);
+    expect(res.json).toHaveBeenCalledWith(updatedStudent);
   });
 });
