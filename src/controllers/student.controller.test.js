@@ -53,7 +53,6 @@ describe("createStudent controller", () => {
   });
 });
 
-
 describe("getStudentById controller", () => {
   it("should return 404 when student is not found", async () => {
     prisma.student.findUnique.mockResolvedValue(null);
@@ -83,7 +82,6 @@ describe("getStudentById controller", () => {
       message: "Student not found",
     });
   });
-
 
   it("should return 200 and student when found", async () => {
     const mockStudent = {
@@ -122,7 +120,6 @@ describe("getStudentById controller", () => {
   });
 });
 
-
 describe("getAllStudents controller", () => {
   it("should return 200 and an array of students", async () => {
     const mockStudents = [
@@ -159,7 +156,6 @@ describe("getAllStudents controller", () => {
     expect(res.status).toHaveBeenCalledWith(200);
     expect(res.json).toHaveBeenCalledWith(mockStudents);
   });
-
 
   it("should return 200 and empty array when no students exist", async () => {
     prisma.student.findMany.mockResolvedValue([]);

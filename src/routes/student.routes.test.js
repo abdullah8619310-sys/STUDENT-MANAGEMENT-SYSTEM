@@ -6,7 +6,6 @@ import { prisma } from "../config/db.js";
 
 vi.mock("../config/db.js");
 
-
 // POST Tests
 describe("POST /api/students", () => {
   beforeEach(() => {
@@ -29,9 +28,7 @@ describe("POST /api/students", () => {
 
     prisma.student.create.mockResolvedValue(createdStudent);
 
-    const res = await request(app)
-      .post("/api/students")
-      .send(newStudent);
+    const res = await request(app).post("/api/students").send(newStudent);
 
     expect(res.status).toBe(201);
     expect(res.body).toEqual(createdStudent);
@@ -40,7 +37,6 @@ describe("POST /api/students", () => {
       data: newStudent,
     });
   });
-
 
   it("should return 409 when email already exists (P2002)", async () => {
     const duplicateStudent = {
@@ -60,9 +56,7 @@ describe("POST /api/students", () => {
 
     prisma.student.create.mockRejectedValue(prismaError);
 
-    const res = await request(app)
-      .post("/api/students")
-      .send(duplicateStudent);
+    const res = await request(app).post("/api/students").send(duplicateStudent);
 
     expect(res.status).toBe(409);
 
@@ -75,7 +69,6 @@ describe("POST /api/students", () => {
     });
   });
 });
-
 
 // GET Tests
 describe("GET /api/students", () => {
@@ -113,7 +106,6 @@ describe("GET /api/students", () => {
     expect(prisma.student.findMany).toHaveBeenCalledWith();
   });
 });
-
 
 // PUT Tests
 describe("PUT /api/students/:id", () => {

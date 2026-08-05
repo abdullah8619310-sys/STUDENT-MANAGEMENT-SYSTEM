@@ -100,35 +100,35 @@
 
 **AI-assisted output reviewed and verified:**
 
-* Installed testing dependencies:
+- Installed testing dependencies:
   - Vitest
   - vitest-mock-extended
   - Supertest
 
-* Configured Vitest testing environment for the Express backend
+- Configured Vitest testing environment for the Express backend
 
-* Added test scripts in `package.json`:
+- Added test scripts in `package.json`:
   - `npm test` for running tests once
   - `npm run test:watch` for watch mode
 
-* Created Prisma Client mock using `vitest-mock-extended`
+- Created Prisma Client mock using `vitest-mock-extended`
 
-* Added reusable Prisma mock file:
+- Added reusable Prisma mock file:
   - `src/config/__mocks__/db.js`
 
-* Mocked Prisma Client to avoid using the real PostgreSQL/Neon database during unit tests
+- Mocked Prisma Client to avoid using the real PostgreSQL/Neon database during unit tests
 
-* Created the first unit test file:
+- Created the first unit test file:
   - `src/controllers/student.controller.test.js`
 
-* Implemented and tested `createStudent` controller success case
+- Implemented and tested `createStudent` controller success case
 
-* Verified controller behavior using mocked Prisma responses
+- Verified controller behavior using mocked Prisma responses
 
-* Confirmed unit tests run successfully with:
+- Confirmed unit tests run successfully with:
   - `npm test`
 
-* Verified tests pass without database dependency
+- Verified tests pass without database dependency
 
 ---
 
@@ -139,17 +139,17 @@
 
 **AI-assisted output reviewed and verified:**
 
-* Installed and configured Vitest testing framework
-* Added Vitest scripts for running tests
-* Configured Prisma Client mocking using `vitest-mock-extended`
-* Created reusable Prisma mock inside `src/config/__mocks__/db.js`
-* Created unit test for `createStudent` controller success scenario
-* Verified Prisma `create` method is called with correct data
-* Verified HTTP 201 response and returned student object
-* Improved test isolation by replacing `vi.clearAllMocks()` with `mockReset(prisma)`
-* Created unit test for `getStudentById` controller not-found scenario
-* Verified controller returns HTTP 404 when student does not exist
-* Confirmed tests run successfully without database dependency
+- Installed and configured Vitest testing framework
+- Added Vitest scripts for running tests
+- Configured Prisma Client mocking using `vitest-mock-extended`
+- Created reusable Prisma mock inside `src/config/__mocks__/db.js`
+- Created unit test for `createStudent` controller success scenario
+- Verified Prisma `create` method is called with correct data
+- Verified HTTP 201 response and returned student object
+- Improved test isolation by replacing `vi.clearAllMocks()` with `mockReset(prisma)`
+- Created unit test for `getStudentById` controller not-found scenario
+- Verified controller returns HTTP 404 when student does not exist
+- Confirmed tests run successfully without database dependency
 
 ---
 
@@ -160,19 +160,19 @@
 
 **AI-assisted output reviewed and verified:**
 
-* Reviewed existing `student.controller.test.js` structure
-* Improved Prisma mock reset handling using `mockReset(prisma)` from `vitest-mock-extended`
-* Verified Prisma mocking works correctly with `vi.mock("../config/db.js")`
-* Added `getStudentById` controller test cases:
-  * Verified 404 response when student is not found
-  * Verified 200 response when student exists
-  * Verified correct Prisma `findUnique` query parameters
-* Added `getAllStudents` controller test cases:
-  * Verified successful response with student list
-  * Verified successful response with empty student array
-  * Verified `findMany()` is called correctly
-* Confirmed all unit tests pass successfully using `npm test`
-* Ensured controller logic is tested independently without database dependency
+- Reviewed existing `student.controller.test.js` structure
+- Improved Prisma mock reset handling using `mockReset(prisma)` from `vitest-mock-extended`
+- Verified Prisma mocking works correctly with `vi.mock("../config/db.js")`
+- Added `getStudentById` controller test cases:
+  - Verified 404 response when student is not found
+  - Verified 200 response when student exists
+  - Verified correct Prisma `findUnique` query parameters
+- Added `getAllStudents` controller test cases:
+  - Verified successful response with student list
+  - Verified successful response with empty student array
+  - Verified `findMany()` is called correctly
+- Confirmed all unit tests pass successfully using `npm test`
+- Ensured controller logic is tested independently without database dependency
 
 ---
 
@@ -183,20 +183,20 @@
 
 **AI-assisted output reviewed and verified:**
 
-* Installed and configured Vitest testing framework
-* Added test scripts for running backend tests
-* Configured Prisma Client mocking using `vitest-mock-extended`
-* Created reusable Prisma mock in `src/config/__mocks__/db.js`
-* Implemented controller unit tests using mocked Prisma responses
-* Tested `createStudent` controller success scenario
-* Tested `getStudentById` success and not-found scenarios
-* Tested `getAllStudents` response with existing students and empty results
-* Tested `updateStudent` success scenario
-* Created `errorHandler.test.js` for middleware error handling
-* Verified Prisma P2002 duplicate error response (409)
-* Verified Prisma P2025 not-found error response (404)
-* Verified unknown error response (500)
-* Confirmed all tests run successfully without database dependency
+- Installed and configured Vitest testing framework
+- Added test scripts for running backend tests
+- Configured Prisma Client mocking using `vitest-mock-extended`
+- Created reusable Prisma mock in `src/config/__mocks__/db.js`
+- Implemented controller unit tests using mocked Prisma responses
+- Tested `createStudent` controller success scenario
+- Tested `getStudentById` success and not-found scenarios
+- Tested `getAllStudents` response with existing students and empty results
+- Tested `updateStudent` success scenario
+- Created `errorHandler.test.js` for middleware error handling
+- Verified Prisma P2002 duplicate error response (409)
+- Verified Prisma P2025 not-found error response (404)
+- Verified unknown error response (500)
+- Confirmed all tests run successfully without database dependency
 
 **Test verification:**
 
@@ -204,96 +204,95 @@
 
 Completed:
 
-* Added Prisma mock setup using vitest-mock-extended
-* Created reusable mock Prisma client:
-  - src/config/__mocks__/db.js
+- Added Prisma mock setup using vitest-mock-extended
+- Created reusable mock Prisma client:
+  - src/config/**mocks**/db.js
 
 Controller Unit Tests:
-* createStudent success test
-* getStudentById success and not-found tests
-* getAllStudents success and empty-array tests
-* updateStudent success test
+
+- createStudent success test
+- getStudentById success and not-found tests
+- getAllStudents success and empty-array tests
+- updateStudent success test
 
 Error Handling Tests:
-* Added errorHandler middleware unit tests
-* Tested Prisma P2002 duplicate error
-* Tested Prisma P2025 not-found error
-* Tested unknown server errors
+
+- Added errorHandler middleware unit tests
+- Tested Prisma P2002 duplicate error
+- Tested Prisma P2025 not-found error
+- Tested unknown server errors
 
 Supertest Setup:
-* Verified Express app testing without starting server
-* Added GET /api/health API smoke test
-* Confirmed routing and middleware pipeline works
+
+- Verified Express app testing without starting server
+- Added GET /api/health API smoke test
+- Confirmed routing and middleware pipeline works
 
 Current Verification:
-* npm test ✅
-* 10 tests passing
+
+- npm test ✅
+- 10 tests passing
 
 ## Supertest Integration Testing
 
 **AI-assisted output reviewed and verified:**
 
-* Verified Express app structure for Supertest compatibility
-* Confirmed `app.js` exports Express app without starting the server
-* Created Supertest smoke test for:
+- Verified Express app structure for Supertest compatibility
+- Confirmed `app.js` exports Express app without starting the server
+- Created Supertest smoke test for:
   - GET /api/health
 
-* Created route-level integration tests for Student APIs
-* Used mocked Prisma Client to avoid real database dependency
+- Created route-level integration tests for Student APIs
+- Used mocked Prisma Client to avoid real database dependency
 
 ### Tested API Flows:
 
 #### POST /api/students
 
-* Tested successful student creation
-* Verified:
+- Tested successful student creation
+- Verified:
   - Express routing
   - Validation middleware
   - Controller execution
   - Mocked Prisma response
   - HTTP 201 response
 
-* Tested duplicate email scenario:
+- Tested duplicate email scenario:
   - Prisma P2002 error simulation
   - Verified Express error forwarding
   - Verified errorHandler returns HTTP 409 response
 
-
 #### GET /api/students
 
-* Tested successful student list retrieval
-* Verified:
+- Tested successful student list retrieval
+- Verified:
   - Route configuration
   - Controller execution
   - Prisma findMany mock response
   - HTTP 200 response
 
-
 #### PUT /api/students/:id
 
-* Tested updating a non-existent student
-* Simulated Prisma P2025 error
-* Verified:
+- Tested updating a non-existent student
+- Simulated Prisma P2025 error
+- Verified:
   - Controller error forwarding
   - Express 5 async error handling
   - errorHandler returns HTTP 404 response
-
 
 ## Final Testing Verification
 
 Testing stack:
 
-* Vitest
-* Supertest
-* vitest-mock-extended
-* Mocked Prisma Client
-
+- Vitest
+- Supertest
+- vitest-mock-extended
+- Mocked Prisma Client
 
 Final Test Result:
 
 Test Files: 4 passed  
 Tests: 14 passed ✅
-
 
 All Week 2 backend testing tasks have been completed successfully.
 
@@ -312,7 +311,7 @@ Completed Week 2 backend requirements:
 ✅ ESLint + Prettier configuration  
 ✅ Vitest unit testing  
 ✅ Supertest API integration testing  
-✅ AI-assisted tests reviewed and verified  
+✅ AI-assisted tests reviewed and verified
 
 Final Verification:
 
