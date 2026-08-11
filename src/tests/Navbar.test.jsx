@@ -1,13 +1,16 @@
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import Navbar from '../components/Navbar/Navbar';
 import { describe, it, expect } from 'vitest';
+import Navbar from '../components/Navbar/Navbar';
+import { AuthProvider } from '../context/AuthContext.jsx';
 
 describe('Navbar Component', () => {
   it('renders navigation links', () => {
     render(
       <BrowserRouter>
-        <Navbar />
+        <AuthProvider>
+          <Navbar />
+        </AuthProvider>
       </BrowserRouter>
     );
 
@@ -16,3 +19,4 @@ describe('Navbar Component', () => {
     expect(screen.getByText('About')).toBeInTheDocument();
   });
 });
+

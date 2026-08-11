@@ -1,143 +1,313 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { validateStudentForm } from '../../utils/validators';
+import {
+getStudents,
+createStudent,
+updateStudent,
+deleteStudent,
+} from '../../services/student.service';
+import { useAuth } from '../../context/useAuth';
 import './StudentsPage.css';
 
 function StudentsPage() {
-  const [students, setStudents] = useState([
-    {
-      id: 1,
-      name: 'Ayesha Khan',
-      email: 'ayesha.khan@example.com',
-      department: 'Computer Science',
-      age: 20,
-    },
-    {
-      id: 2,
-      name: 'Bilal Ahmed',
-      email: 'bilal.ahmed@example.com',
-      department: 'Software Engineering',
-      age: 22,
-    },
-  ]);
+const { user } = useAuth();
+const isAdmin = user?.role === 'ADMIN';
 
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    department: '',
-    age: '',
-  });
+const [students, setStudents] = useState([]);
+const [loading, setLoading] = useState(true);
+const [fetchError, setFetchError] = useState('');
+const [submitting, setSubmitting] = useState(false);
+const [editingStudentId, setEditingStudentId] = useState(null);
 
-  const [errors, setErrors] = useState({});
+const [formData, setFormData] = useState({
+name: '',
+email: '',
+department: '',
+rollNumber: '',
+});
 
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+const [errors, setErrors] = useState({});
+
+useEffect(() => {
+async function fetchStudents() {
+setLoading(true);
+setFetchError('');
+  try {
+    const data = await getStudents();
+    setStudents(data);
+  } catch (error) {
+    setFetchError(error.message);
+  } finally {
+    setLoading(false);
   }
+}
 
-  function handleSubmit(event) {
-    event.preventDefault();
+fetchStudents();
 
-    const validationErrors = validateStudentForm(formData);
-    setErrors(validationErrors);
+}, []);
 
-    if (Object.keys(validationErrors).length > 0) {
-      return;
-    }
+function handleChange(event) {
+const { name, value } = event.target;
+setFormData((prev) => ({
+  ...prev,
+  [name]: value,
+}));
 
-    const newStudent = {
-      id: Date.now(),
+}
+
+function resetForm() {
+setFormData({
+name: '',
+email: '',
+department: '',
+rollNumber: '',
+});
+setErrors({});
+setEditingStudentId(null);
+
+}
+
+function handleEdit(student) {
+setEditingStudentId(student.id);
+setFormData({
+  name: student.name,
+  email: student.email,
+  department: student.department,
+  rollNumber: student.rollNumber,
+});
+
+setErrors({});
+setFetchError('');
+
+}
+
+async function handleDelete(studentId) {
+const confirmed = window.confirm(
+'Are you sure you want to delete this student?'
+);
+if (!confirmed) {
+  return;
+}
+
+setFetchError('');
+
+try {
+  await deleteStudent(studentId);
+
+  setStudents((prev) =>
+    prev.filter((student) => student.id !== studentId)
+  );
+
+  if (editingStudentId === studentId) {
+    resetForm();
+  }
+} catch (error) {
+  setFetchError(error.message);
+}
+
+}
+
+async function handleSubmit(event) {
+event.preventDefault();
+const validationErrors = validateStudentForm(formData);
+setErrors(validationErrors);
+
+if (Object.keys(validationErrors).length > 0) {
+  return;
+}
+
+setSubmitting(true);
+setFetchError('');
+
+try {
+  if (editingStudentId !== null) {
+    const updatedStudent = await updateStudent(editingStudentId, {
       name: formData.name.trim(),
       email: formData.email.trim(),
       department: formData.department.trim(),
-      age: Number(formData.age),
-    };
+      rollNumber: formData.rollNumber.trim(),
+      userId: user.id,
+    });
+
+    setStudents((prev) =>
+      prev.map((student) =>
+        student.id === editingStudentId ? updatedStudent : student
+      )
+    );
+  } else {
+    const newStudent = await createStudent({
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      department: formData.department.trim(),
+      rollNumber: formData.rollNumber.trim(),
+      userId: user.id,
+    });
 
     setStudents((prev) => [...prev, newStudent]);
-    setFormData({ name: '', email: '', department: '', age: '' });
-    setErrors({});
   }
 
-  return (
-    <section className="students-page">
-      <h1>Students</h1>
+  resetForm();
+} catch (error) {
+  setFetchError(error.message);
+} finally {
+  setSubmitting(false);
+}
 
-      <div className="students-page-grid">
-        <div className="students-list">
-          <h2>Registered Students ({students.length})</h2>
-          {students.length === 0 ? (
-            <p>No students registered yet.</p>
-          ) : (
-            <ul>
-              {students.map((student) => (
-                <li key={student.id} className="student-card">
-                  <strong>{student.name}</strong>
-                  <span>{student.email}</span>
-                  <span>{student.department}</span>
-                  <span>Age: {student.age}</span>
-                </li>
-              ))}
-            </ul>
+}
+
+return ( <section className="students-page"> <h1>Students</h1>
+  <div className="students-page-grid">
+    <div className="students-list">
+      <h2>Registered Students ({students.length})</h2>
+
+      {loading && <p>Loading students...</p>}
+
+      {!loading && fetchError && (
+        <p className="error-text" role="alert">
+          {fetchError}
+        </p>
+      )}
+
+      {!loading && !fetchError && students.length === 0 ? (
+        <p>No students registered yet.</p>
+      ) : (
+        !loading &&
+        !fetchError && (
+          <ul>
+            {students.map((student) => (
+              <li key={student.id} className="student-card">
+                <strong>{student.name}</strong>
+                <span>{student.email}</span>
+                <span>{student.department}</span>
+                <span>Roll No: {student.rollNumber}</span>
+
+                {isAdmin && (
+                  <div className="student-actions">
+                    <button
+                      type="button"
+                      onClick={() => handleEdit(student)}
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(student.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        )
+      )}
+    </div>
+
+    {isAdmin && (
+      <form
+        className="student-form"
+        onSubmit={handleSubmit}
+        noValidate
+      >
+        <h2>
+          {editingStudentId !== null
+            ? 'Edit Student'
+            : 'Register New Student'}
+        </h2>
+
+        <div className="form-field">
+          <label htmlFor="name">Name</label>
+
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+          />
+
+          {errors.name && (
+            <span className="error-text">{errors.name}</span>
           )}
         </div>
 
-        <form className="student-form" onSubmit={handleSubmit} noValidate>
-          <h2>Register New Student</h2>
+        <div className="form-field">
+          <label htmlFor="email">Email</label>
 
-          <div className="form-field">
-            <label htmlFor="name">Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-            />
-            {errors.name && <span className="error-text">{errors.name}</span>}
-          </div>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
 
-          <div className="form-field">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-            {errors.email && <span className="error-text">{errors.email}</span>}
-          </div>
+          {errors.email && (
+            <span className="error-text">{errors.email}</span>
+          )}
+        </div>
 
-          <div className="form-field">
-            <label htmlFor="department">Department</label>
-            <input
-              type="text"
-              id="department"
-              name="department"
-              value={formData.department}
-              onChange={handleChange}
-            />
-            {errors.department && (
-              <span className="error-text">{errors.department}</span>
-            )}
-          </div>
+        <div className="form-field">
+          <label htmlFor="department">Department</label>
 
-          <div className="form-field">
-            <label htmlFor="age">Age</label>
-            <input
-              type="number"
-              id="age"
-              name="age"
-              value={formData.age}
-              onChange={handleChange}
-            />
-            {errors.age && <span className="error-text">{errors.age}</span>}
-          </div>
+          <input
+            type="text"
+            id="department"
+            name="department"
+            value={formData.department}
+            onChange={handleChange}
+          />
 
-          <button type="submit">Register Student</button>
-        </form>
-      </div>
-    </section>
-  );
+          {errors.department && (
+            <span className="error-text">{errors.department}</span>
+          )}
+        </div>
+
+        <div className="form-field">
+          <label htmlFor="rollNumber">Roll Number</label>
+
+          <input
+            type="text"
+            id="rollNumber"
+            name="rollNumber"
+            value={formData.rollNumber}
+            onChange={handleChange}
+          />
+
+          {errors.rollNumber && (
+            <span className="error-text">{errors.rollNumber}</span>
+          )}
+        </div>
+
+        <div className="form-actions">
+          <button type="submit" disabled={submitting}>
+            {submitting
+              ? 'Saving...'
+              : editingStudentId !== null
+                ? 'Update Student'
+                : 'Register Student'}
+          </button>
+
+          {editingStudentId !== null && (
+            <button
+              type="button"
+              onClick={resetForm}
+              disabled={submitting}
+            >
+              Cancel
+            </button>
+          )}
+        </div>
+      </form>
+    )}
+  </div>
+</section>
+
+);
 }
 
 export default StudentsPage;
+
+

@@ -5,13 +5,23 @@ import StudentsPage from '../pages/StudentsPage/StudentsPage';
 import AboutPage from '../pages/AboutPage/AboutPage';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
+import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
 
 function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<HomePage />} />
-        <Route path="students" element={<StudentsPage />} />
+
+        <Route
+          path="students"
+          element={
+            <ProtectedRoute>
+              <StudentsPage />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="about" element={<AboutPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="*" element={<NotFoundPage />} />

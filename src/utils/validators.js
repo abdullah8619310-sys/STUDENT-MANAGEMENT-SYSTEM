@@ -7,9 +7,8 @@ export function isValidEmail(email) {
   return emailPattern.test(email);
 }
 
-export function isMinimumAge(age, minAge = 18) {
-  const numericAge = Number(age);
-  return !Number.isNaN(numericAge) && numericAge >= minAge;
+export function isMinimumAge(age, minimumAge = 18) {
+  return Number(age) >= minimumAge;
 }
 
 export function validateStudentForm(formData) {
@@ -29,10 +28,8 @@ export function validateStudentForm(formData) {
     errors.department = 'Department is required.';
   }
 
-  if (!isRequired(formData.age)) {
-    errors.age = 'Age is required.';
-  } else if (!isMinimumAge(formData.age)) {
-    errors.age = 'Student must be at least 18 years old.';
+  if (!isRequired(formData.rollNumber)) {
+    errors.rollNumber = 'Roll number is required.';
   }
 
   return errors;
