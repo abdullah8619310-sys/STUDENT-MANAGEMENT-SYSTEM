@@ -48,7 +48,8 @@ export const loginUser = async (req, res) => {
     });
   }
 
-  const { password: _password, ...userWithoutPassword } = user;
+  const userWithoutPassword = { ...user };
+  delete userWithoutPassword.password;
 
   const token = generateToken({ userId: user.id, role: user.role });
 

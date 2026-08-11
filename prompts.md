@@ -322,3 +322,180 @@ Testing Result:
 
 Test Files: 4 passed
 Tests: 14 passed
+
+
+---
+
+# Week 3 - Authentication, Authorization, Integration & Testing
+
+## Week 3 - JWT Authentication
+
+**Prompt used:**
+
+"Guide me through adding JWT-based authentication to my existing Express 5 + Prisma 7 Student Management System backend. Explain authentication concepts before implementing them. Add secure password hashing, user registration, login, JWT generation, and authentication middleware. Keep the implementation consistent with the existing project structure."
+
+**AI-assisted output reviewed and verified:**
+
+- Added user authentication using JWT
+- Added password hashing with bcrypt
+- Implemented user registration endpoint
+- Implemented user login endpoint
+- Added JWT token generation utility
+- Added JWT authentication middleware
+- Added protected API routes
+- Ensured passwords are not returned in login responses
+- Verified invalid credentials return HTTP 401
+- Tested authentication middleware with valid, missing, and invalid tokens
+
+---
+
+## Week 3 - Role-Based Authorization
+
+**Prompt used:**
+
+"Guide me through adding role-based authorization to my existing JWT authentication system. Implement reusable authorization middleware so different user roles can access different backend operations. Explain how authentication and authorization work together before generating the code."
+
+**AI-assisted output reviewed and verified:**
+
+- Added reusable `authorize` middleware
+- Used user role information from the verified JWT
+- Added role-based protection for Student API operations
+- Restricted create, update, and delete operations to ADMIN users
+- Verified unauthorized users receive HTTP 403
+- Verified unauthenticated requests receive HTTP 401
+- Added unit tests for authorization middleware
+- Confirmed authorization works together with JWT authentication
+
+---
+
+## Week 3 - Frontend and Backend Integration
+
+**Prompt used:**
+
+"Guide me through connecting my existing React Student Management System frontend to the Express + Prisma backend. Keep the existing frontend structure and connect authentication and Student CRUD operations to the real backend API. Explain each integration step before implementing it."
+
+**AI-assisted output reviewed and verified:**
+
+- Connected React frontend to the Express backend
+- Connected login functionality to the backend authentication API
+- Stored and used JWT authentication information on the frontend
+- Added authenticated API requests
+- Connected Student list retrieval to the backend
+- Connected student creation to the backend
+- Connected student update to the backend
+- Connected student deletion to the backend
+- Added role-based UI behavior for admin users
+- Verified the complete Student CRUD workflow through the frontend
+- Confirmed frontend data is persisted through the backend and PostgreSQL database
+
+---
+
+## Week 3 - Authentication and CRUD API Tests
+
+**Prompt used:**
+
+"Guide me through expanding the backend test suite for JWT authentication, role-based authorization, Student CRUD routes, and error handling. Use Vitest and Supertest. Mock Prisma where appropriate for unit and route tests, and verify successful and failure scenarios."
+
+**AI-assisted output reviewed and verified:**
+
+- Added authentication controller tests
+- Added password utility tests
+- Added JWT token utility tests
+- Added authentication middleware tests
+- Added authorization middleware tests
+- Expanded Student controller tests
+- Added Student route tests using Supertest
+- Added error handler tests
+- Tested successful authentication
+- Tested invalid authentication scenarios
+- Tested role-based authorization
+- Tested successful Student creation
+- Tested duplicate email error handling
+- Tested Student retrieval
+- Tested non-existent Student update
+- Tested Prisma P2002 duplicate error
+- Tested Prisma P2025 not-found error
+- Tested unexpected server errors
+
+---
+
+## Week 3 - End-to-End Integration Test
+
+**Prompt used:**
+
+"Guide me through creating an integration test for the Student Management System that tests the happy path end-to-end using the real PostgreSQL database. The test should create a temporary admin user, authenticate through the login endpoint, receive a real JWT, and use that JWT to create a student through the protected Student API."
+
+**AI-assisted output reviewed and verified:**
+
+- Created `src/integration.test.js`
+- Used the real PostgreSQL database for the integration test
+- Created a temporary ADMIN user during the test
+- Hashed the test user's password using bcrypt
+- Logged in through the real `/api/auth/login` endpoint
+- Received and verified a real JWT
+- Used the JWT in the Authorization header
+- Created a student through the protected `/api/students` endpoint
+- Verified the created student's data
+- Cleaned up the temporary student and user after the test
+- Confirmed the complete authentication-to-CRUD happy path works
+
+### Integration Test Result
+
+- Integration test passed successfully
+- Test Files: 1 passed
+- Tests: 1 passed
+- Real PostgreSQL database connection verified
+
+---
+
+## Week 3 - Final Test Verification
+
+Testing stack:
+
+- Vitest
+- Supertest
+- vitest-mock-extended
+- Prisma 7
+- PostgreSQL / Neon
+- bcrypt
+- JSON Web Tokens
+
+Final Verification:
+
+- `npm test` ✅
+- `npx vitest run src/integration.test.js` ✅
+
+Final Test Result:
+
+- Test Files: 10 passed
+- Tests: 31 passed
+- Failed Tests: 0
+
+The Week 3 authentication, authorization, frontend/backend integration, API testing, and end-to-end integration requirements were successfully completed and verified.
+
+---
+
+# Week 3 Final Completion Summary
+
+Completed Week 3 requirements:
+
+✅ JWT authentication  
+✅ Password hashing with bcrypt  
+✅ User registration and login  
+✅ JWT authentication middleware  
+✅ Role-based authorization  
+✅ Admin-only Student CRUD operations  
+✅ React frontend connected to backend  
+✅ Full Student CRUD workflow through frontend  
+✅ Authentication and CRUD API tests  
+✅ Error-path testing  
+✅ End-to-end integration test  
+✅ Real PostgreSQL integration verification  
+✅ Updated AI prompts log  
+
+Final Verification:
+
+- `npm test` ✅
+- Test Files: 10 passed
+- Tests: 31 passed
+- Failed Tests: 0

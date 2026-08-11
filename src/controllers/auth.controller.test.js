@@ -1,4 +1,4 @@
-﻿import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+﻿import { describe, it, expect, vi, afterEach } from "vitest";
 import { registerUser, loginUser } from "./auth.controller.js";
 import { prisma } from "../config/db.js";
 import { hashPassword } from "../utils/password.js";
