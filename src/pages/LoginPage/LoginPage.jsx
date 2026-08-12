@@ -1,7 +1,7 @@
 ﻿import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../services/auth.service';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../context/useAuth';
 import { isRequired, isValidEmail } from '../../utils/validators';
 
 function LoginPage() {
@@ -119,3 +119,4 @@ function LoginPage() {
 }
 
 export default LoginPage;
+

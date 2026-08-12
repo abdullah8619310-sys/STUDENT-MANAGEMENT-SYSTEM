@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api";
+﻿const API_URL = "http://localhost:5000/api";
 
 export async function apiRequest(endpoint, options = {}) {
   const token = localStorage.getItem("token");
@@ -14,10 +14,11 @@ export async function apiRequest(endpoint, options = {}) {
     },
   });
 
-  const data = await response.json();
+  const text = await response.text();
+  const data = text ? JSON.parse(text) : null;
 
   if (!response.ok) {
-    throw new Error(data.message || "Something went wrong");
+    throw new Error(data?.message || "Something went wrong");
   }
 
   return data;
