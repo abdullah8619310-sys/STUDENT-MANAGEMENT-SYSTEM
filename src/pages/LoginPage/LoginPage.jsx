@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../services/auth.service';
 import { useAuth } from '../../context/useAuth';
 import { isRequired, isValidEmail } from '../../utils/validators';
+import './LoginPage.css';
 
 function LoginPage() {
   const [formData, setFormData] = useState({
@@ -70,53 +71,69 @@ function LoginPage() {
   }
 
   return (
-    <section>
-      <h1>Login</h1>
-
-      <form onSubmit={handleSubmit} noValidate>
-        <div>
-          <label htmlFor="email">Email</label>
-
-          <input
-            id="email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-
-          {errors.email && (
-            <p role="alert">{errors.email}</p>
-          )}
+    <section className="login-page">
+      <div className="login-card">
+        <div className="login-header">
+          <h1>Welcome Back</h1>
+          <p>Sign in to access the Student Management System</p>
         </div>
 
-        <div>
-          <label htmlFor="password">Password</label>
+        <form className="login-form" onSubmit={handleSubmit} noValidate>
+          <div className="login-field">
+            <label htmlFor="email">Email</label>
 
-          <input
-            id="password"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
+            <input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
+            />
 
-          {errors.password && (
-            <p role="alert">{errors.password}</p>
+            {errors.email && (
+              <p className="login-error" role="alert">
+                {errors.email}
+              </p>
+            )}
+          </div>
+
+          <div className="login-field">
+            <label htmlFor="password">Password</label>
+
+            <input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+
+            {errors.password && (
+              <p className="login-error" role="alert">
+                {errors.password}
+              </p>
+            )}
+          </div>
+
+          {serverError && (
+            <p className="login-server-error" role="alert">
+              {serverError}
+            </p>
           )}
-        </div>
 
-        {serverError && (
-          <p role="alert">{serverError}</p>
-        )}
-
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Logging in...' : 'Login'}
-        </button>
-      </form>
+          <button
+            className="login-submit"
+            type="submit"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Logging in...' : 'Login'}
+          </button>
+        </form>
+      </div>
     </section>
   );
 }
 
 export default LoginPage;
-
