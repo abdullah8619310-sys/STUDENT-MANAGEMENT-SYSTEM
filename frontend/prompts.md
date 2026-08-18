@@ -246,3 +246,33 @@ All tests pass (`npm run test`), and the project passes both `npm run lint` and 
 - Semantic HTML (`<main>`, `<nav>`, `<section>`) for accessibility
 - Consistent PascalCase file/folder naming to avoid case-sensitivity bugs across operating systems
 - Empty `services/` and `hooks/` folders reserved intentionally for Week 2 backend integration, avoiding future restructuring
+
+---
+
+## 4. Post-Week-3 — Repository Consolidation & Code Review
+
+**Purpose:** Merge the previously separate `STUDENT-MANAGEMENT-SYSTEM` (frontend) and `student-management-backend` repos into a single monorepo, and have Claude Code review both halves for real bugs rather than only structural cleanup, ahead of Phase 2.
+
+**Prompt given to Claude Code:**
+> "analyze this project and don't change any code" → followed by a request to consolidate the two repos into one (`frontend/` + `backend/`), preserving each repo's git history, and to fix the issues found during analysis.
+
+**Outcome — repository structure:**
+- Moved all existing frontend files into `frontend/` (via `git mv`, preserving history/blame)
+- Imported the full `student-management-backend` commit history into `backend/` via `git subtree add`, so both weeks of backend work remain visible in one repo instead of being lost or squashed
+- Rewrote the root `README.md` (previously the untouched Vite template) with setup instructions, an API table, and tech stack for both halves
+
+**Outcome — frontend bugs found and fixed:**
+- `apiClient.js` had a hardcoded `http://localhost:5000/api` — switched to `import.meta.env.VITE_API_URL` with a local fallback, and added `frontend/.env.example`
+- No handling for an expired/invalid token: a 401 response left the app "half logged-in" (token present in state but every request failing). `apiClient` now dispatches an `auth:unauthorized` event on 401, and `AuthProvider` listens for it and logs the session out
+- `Navbar` rendered the user name and Logout button even when logged out (empty `()` and a dead-end Logout button for anonymous visitors); now conditionally renders a Login link instead
+- `ProtectedRoute` always bounced to `/login` without remembering the attempted URL; `LoginPage` always navigated to `/students` after login regardless of where the user came from. Both now round-trip the intended destination via router `state`
+- `StudentsPage` was still sending `userId` in the create/update request body — removed once the backend started deriving it from the JWT instead (see backend log)
+- Removed dead code: `isMinimumAge` (validators.js) was untested-by-the-actual-form leftover from an earlier draft with an age field that no longer exists; removed it and its test
+- Removed unused asset files (`App.css`, `hero.png`, `react.svg`, `vite.svg`, `public/icons.svg`) that were never imported anywhere
+- `AboutPage` copy still described the Week-1 in-memory version of the app; updated to describe the actual JWT-authenticated, Postgres-backed architecture
+
+**Outcome — test fixes:**
+- `StudentsPage.test.jsx` was making a real, unmocked `fetch` to `localhost:5000` and only passing by accident (the failed request was silently swallowed into an error state); now mocks `student.service.js` directly
+- Both component tests switched from `BrowserRouter` to `MemoryRouter` (flagged as a known follow-up in the original Week 1 log, §Step 16) and clean up `localStorage` between tests
+
+**Verification:** `npm run lint` clean, `npm test` — 3 files / 5 tests passing, `npx vite build` succeeds.

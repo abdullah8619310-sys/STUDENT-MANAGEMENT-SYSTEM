@@ -499,3 +499,26 @@ Final Verification:
 - Test Files: 10 passed
 - Tests: 31 passed
 - Failed Tests: 0
+
+---
+
+# Post-Week-3 — Repository Consolidation & Code Review
+
+**Prompt used:**
+
+"Consolidate this backend repo and the separate frontend repo into a single monorepo (`frontend/` + `backend/`), preserving git history, and fix the issues found during review."
+
+**AI-assisted output reviewed and verified:**
+
+- Committed a pending uncommitted change to `prisma/schema.prisma` (the `Role` enum and formatting) that existed on disk but had never been committed — without this, the subtree merge would have carried a schema out of sync with the actual controller/middleware code
+- Imported this repo's full commit history into `STUDENT-MANAGEMENT-SYSTEM/backend/` via `git subtree`, so Week 2 + Week 3 history stays intact in the merged repo instead of being flattened
+- **Found and fixed:** `POST /api/auth/register` and `POST /api/auth/login` imported `registerSchema`/`loginSchema` from `auth.validator.js` but never wired them into the routes — the endpoints accepted completely unvalidated request bodies. Added `validate(registerSchema)` / `validate(loginSchema)` to `auth.routes.js`. Verified with `curl`: a malformed register request (missing name/password, invalid email) now correctly returns `400` with field-level Zod errors instead of being accepted or crashing
+- **Found and fixed a data-integrity gap:** `createStudent`/`updateStudent` trusted a client-supplied `userId` in the request body, so any authenticated `ADMIN` could attribute a student to an arbitrary user id. Removed `userId` from `student.validator.js`'s schemas and changed `createStudent` to take it from `req.user.userId` (the authenticated token) instead; `updateStudent` no longer accepts a `userId` change at all. Verified against the real database: logged in as an admin, sent `userId: 999` in the create payload, and confirmed the persisted student's `userId` was the admin's real id (13), not the spoofed value — then cleaned up the test user/student
+- Documented `DATABASE_URL` and `JWT_SECRET` in `.env.example` (previously only `PORT` was listed, so a fresh clone had no indication these were required)
+- Updated `student.controller.test.js`, `student.routes.test.js`, and `integration.test.js` for the new contract (no client-supplied `userId`)
+
+**Verification:**
+
+- `npm run lint` ✅ (clean)
+- `npx vitest run --exclude "**/integration.test.js"` — 9 files / 30 tests passing
+- Manual smoke test against the real Neon Postgres database (register → login → role-check 403 → validation 400 → admin create with spoofed `userId` ignored → cleanup)
