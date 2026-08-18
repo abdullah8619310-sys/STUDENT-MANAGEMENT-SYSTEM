@@ -240,6 +240,20 @@ This document records the AI-assisted development process for the **Student Mana
 
 ---
 
+## Post-Week-3 — Third Theme Pass: Dark Mode (Black, Orange, Sky Blue)
+
+**Prompt given to Claude Code:**
+> "The layout looks bad — use black, orange, and sky blue in the background, the register-student form, and the students list, applied across all pages." Clarified further: "like VS Code, where different buttons/menus have different colors" — i.e. a full dark theme, not just an accent swap.
+
+**Outcome:**
+- Converted every neutral token to a dark palette (page background near-black, card surfaces a lighter charcoal, borders/text adjusted for dark-mode contrast) and set `--color-primary` to orange / `--color-accent` to sky blue, with the brand gradient now running orange → sky blue
+- **Found the same category of bug a third time**: several rules across `index.css`, `Navbar.css`, `LoginPage.css`, `StudentsPage.css`, `CoursesPage.css`, and `HomePage.css` had literal `#ffffff` or pale hex values (form input backgrounds, card dividers, the hero's white CTA button) instead of referencing the CSS custom properties — so they silently stayed light-mode-colored through the two earlier theme passes until this dark conversion made the gap impossible to miss. Fixed all of them to reference tokens (or dark-appropriate literals where a color is genuinely one-off, e.g. text sitting on the colored gradient panels, which correctly stays white).
+- Role badges now read distinctly by color: ADMIN=orange (primary), TEACHER=sky blue (accent), STUDENT=neutral — directly answering the "different colors for different elements" comparison
+
+**Verification:** lint clean, 5/5 tests passing, build succeeds, Playwright pass across Home, Students, Courses, and About against the real backend with zero console errors.
+
+---
+
 ## Phase 1 Completion Summary
 
 All Phase 1 (Weeks 1–3) requirements from the internship plan are satisfied:
