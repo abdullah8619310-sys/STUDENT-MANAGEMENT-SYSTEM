@@ -1,16 +1,75 @@
+import './AboutPage.css';
+
+const STACK = [
+  'React 19',
+  'Vite',
+  'React Router',
+  'Express 5',
+  'Prisma 7',
+  'PostgreSQL',
+  'JWT',
+  'Zod',
+];
+
+const ROLES = [
+  {
+    name: 'ADMIN',
+    tone: 'badge-primary',
+    permissions: [
+      'View all students',
+      'Register new students',
+      'Edit existing students',
+      'Delete students',
+    ],
+  },
+  {
+    name: 'TEACHER',
+    tone: 'badge-neutral',
+    permissions: ['View all students'],
+  },
+];
+
 function AboutPage() {
   return (
-    <section className="about-page">
-      <h1>About This Project</h1>
-      <p>
-        The Student Management System is a full-stack application: a React +
-        Vite single-page frontend backed by an Express REST API with a
-        PostgreSQL database via Prisma. Access is protected by JWT
-        authentication, with role-based authorization distinguishing ADMIN
-        and TEACHER accounts — only admins can register, edit, or delete
-        students.
-      </p>
-    </section>
+    <div className="about-page container">
+      <header className="about-header">
+        <h1>About This Project</h1>
+        <p>
+          A full-stack application: a React + Vite single-page frontend
+          backed by an Express REST API with a PostgreSQL database via
+          Prisma. Access is protected by JWT authentication, with
+          role-based authorization distinguishing what admins and teachers
+          can do.
+        </p>
+      </header>
+
+      <section className="about-section card">
+        <h2>Tech Stack</h2>
+        <div className="stack-list">
+          {STACK.map((tech) => (
+            <span className="badge badge-primary" key={tech}>
+              {tech}
+            </span>
+          ))}
+        </div>
+      </section>
+
+      <section className="about-section">
+        <h2>Roles &amp; Permissions</h2>
+        <div className="roles-grid">
+          {ROLES.map((role) => (
+            <div className="role-card card" key={role.name}>
+              <span className={`badge ${role.tone}`}>{role.name}</span>
+              <ul>
+                {role.permissions.map((permission) => (
+                  <li key={permission}>{permission}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
   );
 }
 

@@ -1,4 +1,4 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { validateStudentForm } from '../../utils/validators';
 import {
   getStudents,
@@ -9,6 +9,26 @@ import {
 import { useAuth } from '../../context/useAuth';
 import './StudentsPage.css';
 
+const BADGE_TONES = ['badge-primary', 'badge-success', 'badge-neutral'];
+
+function getInitials(name) {
+  if (!name) return '?';
+  return name
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join('');
+}
+
+function toneForDepartment(department) {
+  let hash = 0;
+  for (let i = 0; i < department.length; i += 1) {
+    hash = (hash + department.charCodeAt(i)) % BADGE_TONES.length;
+  }
+  return BADGE_TONES[hash];
+}
+
 function StudentsPage() {
   const { user } = useAuth();
   const isAdmin = user?.role === 'ADMIN';
@@ -18,6 +38,7 @@ function StudentsPage() {
   const [fetchError, setFetchError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [editingStudentId, setEditingStudentId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const [formData, setFormData] = useState({
     name: '',
@@ -45,6 +66,18 @@ function StudentsPage() {
 
     fetchStudents();
   }, []);
+
+  const filteredStudents = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase();
+    if (!term) return students;
+
+    return students.filter((student) =>
+      [student.name, student.email, student.department, student.rollNumber]
+        .join(' ')
+        .toLowerCase()
+        .includes(term)
+    );
+  }, [students, searchTerm]);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -154,14 +187,51 @@ function StudentsPage() {
   }
 
   return (
-    <section className="students-page">
-      <h1>Students</h1>
+    <section className="students-page container">
+      <div className="students-page-header">
+        <div>
+          <h1>Students</h1>
+          <p className="students-page-subtitle">
+            Browse, search, and {isAdmin ? 'manage' : 'view'} every
+            registered student.
+          </p>
+        </div>
+
+        <div className="search-box">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="11" cy="11" r="6.5" stroke="currentColor" strokeWidth="1.6" />
+            <path
+              d="m20 20-3.8-3.8"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            />
+          </svg>
+          <input
+            type="search"
+            placeholder="Search by name, email, roll number..."
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            aria-label="Search students"
+          />
+        </div>
+      </div>
 
       <div className="students-page-grid">
-        <div className="students-list">
-          <h2>Registered Students ({students.length})</h2>
+        <div className="students-list card">
+          <div className="students-list-header">
+            <h2>Registered Students</h2>
+            <span className="badge badge-primary">
+              {filteredStudents.length}
+            </span>
+          </div>
 
-          {loading && <p>Loading students...</p>}
+          {loading && (
+            <div className="state-message">
+              <span className="spinner spinner-dark" aria-hidden="true" />
+              <p>Loading students...</p>
+            </div>
+          )}
 
           {!loading && fetchError && (
             <p className="error-text" role="alert">
@@ -169,15 +239,25 @@ function StudentsPage() {
             </p>
           )}
 
-          {!loading && !fetchError && students.length === 0 ? (
-            <p>No students registered yet.</p>
+          {!loading && !fetchError && filteredStudents.length === 0 ? (
+            <div className="state-message">
+              <p>
+                {students.length === 0
+                  ? 'No students registered yet.'
+                  : 'No students match your search.'}
+              </p>
+            </div>
           ) : (
             !loading &&
             !fetchError && (
               <ul>
-                {students.map((student) => (
+                {filteredStudents.map((student) => (
                   <li key={student.id} className="student-card">
                     <div className="student-card-header">
+                      <span className="student-avatar" aria-hidden="true">
+                        {getInitials(student.name)}
+                      </span>
+
                       <div>
                         <h3 className="student-name">{student.name}</h3>
                         <p className="student-email">{student.email}</p>
@@ -187,7 +267,9 @@ function StudentsPage() {
                     <div className="student-card-body">
                       <div className="student-field">
                         <span className="field-label">Department</span>
-                        <span className="field-value">
+                        <span
+                          className={`badge ${toneForDepartment(student.department)}`}
+                        >
                           {student.department}
                         </span>
                       </div>
@@ -204,7 +286,7 @@ function StudentsPage() {
                       <div className="student-actions">
                         <button
                           type="button"
-                          className="btn-edit"
+                          className="btn btn-outline btn-sm"
                           onClick={() => handleEdit(student)}
                         >
                           Edit
@@ -212,7 +294,7 @@ function StudentsPage() {
 
                         <button
                           type="button"
-                          className="btn-delete"
+                          className="btn btn-danger-outline btn-sm"
                           onClick={() => handleDelete(student.id)}
                         >
                           Delete
@@ -228,7 +310,7 @@ function StudentsPage() {
 
         {isAdmin && (
           <form
-            className="student-form"
+            className="student-form card"
             onSubmit={handleSubmit}
             noValidate
           >
@@ -303,7 +385,12 @@ function StudentsPage() {
             </div>
 
             <div className="form-actions">
-              <button type="submit" disabled={submitting}>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={submitting}
+              >
+                {submitting && <span className="spinner" aria-hidden="true" />}
                 {submitting
                   ? 'Saving...'
                   : editingStudentId !== null
@@ -314,6 +401,7 @@ function StudentsPage() {
               {editingStudentId !== null && (
                 <button
                   type="button"
+                  className="btn btn-ghost"
                   onClick={resetForm}
                   disabled={submitting}
                 >

@@ -1,0 +1,78 @@
+.about-page {
+  padding: 3rem 1.5rem 4rem;
+  max-width: 860px;
+}
+
+.about-header {
+  margin-bottom: 2.5rem;
+}
+
+.about-header h1 {
+  font-size: 2.1rem;
+  margin-bottom: 0.85rem;
+}
+
+.about-header p {
+  color: var(--color-text-secondary);
+  font-size: 1.02rem;
+  line-height: 1.65;
+  max-width: 680px;
+}
+
+.about-section {
+  margin-bottom: 2rem;
+}
+
+.about-section > h2 {
+  font-size: 1.15rem;
+  margin-bottom: 1rem;
+}
+
+.about-section.card {
+  padding: 1.75rem;
+}
+
+.stack-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.roles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.role-card {
+  padding: 1.5rem;
+}
+
+.role-card .badge {
+  margin-bottom: 1rem;
+}
+
+.role-card ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.role-card li {
+  position: relative;
+  padding-left: 1.35rem;
+  color: var(--color-text-secondary);
+  font-size: 0.92rem;
+}
+
+.role-card li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-success);
+}
