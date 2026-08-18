@@ -10,7 +10,7 @@ A full-stack student management app built as part of the Arbisoft AI Internship 
 └── backend/    Express 5 + Prisma 7 REST API (PostgreSQL)
 ```
 
-Each half has its own `package.json`, dependencies, and `prompts.md` AI-development log — run them independently.
+Each half has its own `package.json` and dependencies — run them independently. The AI-development log for all three weeks lives in the root [`prompts.md`](./prompts.md).
 
 ## Features
 
