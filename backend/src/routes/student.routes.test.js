@@ -220,7 +220,7 @@ expect(res.status).toBe(404);
 
 
 expect(res.body).toEqual({
-  message: "Student not found",
+  message: "The requested record was not found.",
 });
 
 

@@ -36,11 +36,11 @@ router.get(
 );
 
 
-// ADMIN only
+// ADMIN + TEACHER can register new students
 router.post(
   "/",
   authenticate,
-  authorize("ADMIN"),
+  authorize("ADMIN", "TEACHER"),
   validate(createStudentSchema),
   createStudent
 );

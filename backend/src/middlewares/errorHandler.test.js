@@ -34,7 +34,9 @@ describe("errorHandler middleware", () => {
     errorHandler(err, req, res, next);
 
     expect(res.status).toHaveBeenCalledWith(404);
-    expect(res.json).toHaveBeenCalledWith({ message: "Student not found" });
+    expect(res.json).toHaveBeenCalledWith({
+      message: "The requested record was not found.",
+    });
   });
 
   it("should return 500 for an unrecognized error", () => {

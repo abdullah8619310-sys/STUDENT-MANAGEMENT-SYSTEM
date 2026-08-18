@@ -11,7 +11,7 @@
 
   if (err.code === "P2025") {
     return res.status(404).json({
-      message: "Student not found",
+      message: "The requested record was not found.",
     });
   }
 

@@ -23,7 +23,7 @@ describe("authorize middleware", () => {
     expect(res.status).toHaveBeenCalledWith(401);
 
     expect(res.json).toHaveBeenCalledWith({
-      message: "Authentication required",
+      message: "Authentication required. Please log in.",
     });
 
     expect(next).not.toHaveBeenCalled();
@@ -58,7 +58,7 @@ describe("authorize middleware", () => {
 
 
     expect(res.json).toHaveBeenCalledWith({
-      message: "Forbidden: insufficient permissions",
+      message: "You don't have permission to do this. This action requires one of: ADMIN.",
     });
 
 
