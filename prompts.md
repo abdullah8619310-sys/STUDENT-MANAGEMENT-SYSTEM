@@ -195,6 +195,34 @@ This document records the AI-assisted development process for the **Student Mana
 
 ---
 
+## Post-Week-3 — Courses, Per-Role Permissions, Error Handling & Visual Theme
+
+**Prompt given to Claude Code:**
+> "Give the three roles proper, distinct permissions and add a Courses feature: students can only view students and courses; teachers can register students, add/remove courses, and drop students from courses; admins can do everything including edit/delete/update. Show a proper error on the frontend whenever someone tries something they can't do, or submits an invalid entry. Also replace the purple/blue color scheme — it's irritating — with something else, and use better fonts."
+
+**Judgment call flagged before starting:** the prompt named "drop" for teachers but never explicitly said teachers could *enroll* a student in a course. Proceeded with both enroll and drop for `ADMIN`/`TEACHER` — a course-management feature that can only remove students and never add them isn't a usable workflow — and flagged the assumption to the user up front rather than silently guessing.
+
+**Outcome — backend:**
+- New `Course` and `Enrollment` Prisma models (`Enrollment` as the many-to-many join table, `@@unique([studentId, courseId])` to prevent double-enrollment), migrated against the real database
+- New `/api/courses` routes with a three-way permission split: `GET` open to any authenticated role, `POST`/`DELETE`/enroll/drop restricted to `ADMIN` + `TEACHER`, `PUT` (edit) restricted to `ADMIN` only
+- `POST /api/students` changed from `ADMIN`-only to `ADMIN` + `TEACHER` (teachers can register students; edit/delete stay `ADMIN`-only)
+- `enrollStudent`/`dropStudent` controllers return specific messages instead of raw Prisma errors: "already enrolled," "not enrolled," course/student not found
+- `authorize` middleware now names the roles required instead of a generic "insufficient permissions" message
+- New course controller unit tests (create/update/delete/enroll/drop, including not-found and already-enrolled cases)
+
+**Outcome — frontend:**
+- New `CoursesPage`, mirroring the backend's exact permission split — verified the `TEACHER` view has no course "Edit" button and the `STUDENT` view has no forms or Drop buttons at all
+- New global toast notification system (`ToastProvider`/`useToast`) so every action failure (permission denied, validation, conflict) surfaces a specific, dismissible message instead of a silent failure — matches the backend's now-descriptive error text
+- `apiClient` attaches the HTTP status to thrown errors and has sensible default messages per status as a fallback
+- Replaced every hardcoded indigo/violet/blue value across the CSS (not just the design tokens — a few gradients and box-shadows had hardcoded rgba values that the earlier token-based redesign missed) with a teal/amber palette, and swapped the Lexend heading font for Sora
+- `AboutPage` now documents all three roles and their actual permissions, including courses
+
+**Caught during verification:** twice during this session, a curl smoke test against a freshly-added backend route returned 404/stale behavior because an old `node src/server.js` process from an earlier session was still bound to port 5000. Both times the fix was finding and killing the stale process (`Get-NetTCPConnection` / `taskkill` via PowerShell, since `lsof` wasn't reliably available in this shell) before retesting — a reminder to verify *which* process answered before trusting a "it's broken" result.
+
+**Verification:** Backend — 40/40 unit/route tests passing, lint clean, and a full curl-driven permission matrix across all three roles and every new endpoint (student blocked from course create/enroll/update with 403, teacher blocked from course edit with 403, admin allowed everywhere, duplicate enrollment → 409, dropping a non-enrolled student → 404). Frontend — lint clean, 5/5 tests passing, build succeeds, and a three-role Playwright walkthrough (teacher creates a course and enrolls/drops a student with no Edit button visible; admin edits that same course; student sees zero management controls anywhere) with zero console errors.
+
+---
+
 ## Phase 1 Completion Summary
 
 All Phase 1 (Weeks 1–3) requirements from the internship plan are satisfied:
