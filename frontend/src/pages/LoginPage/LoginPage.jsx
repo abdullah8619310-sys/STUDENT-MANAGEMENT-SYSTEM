@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { loginUser } from '../../services/auth.service';
 import { useAuth } from '../../context/useAuth';
 import { isRequired, isValidEmail } from '../../utils/validators';
@@ -194,6 +194,10 @@ function LoginPage() {
               {isSubmitting && <span className="spinner" aria-hidden="true" />}
               {isSubmitting ? 'Logging in...' : 'Login'}
             </button>
+
+            <p className="register-footer-text">
+              Don&rsquo;t have an account? <Link to="/register">Sign up</Link>
+            </p>
           </form>
         </div>
       </div>

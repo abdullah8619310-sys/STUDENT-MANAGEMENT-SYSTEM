@@ -33,4 +33,5 @@ model Student {
 enum Role {
   ADMIN
   TEACHER
+  STUDENT
 }

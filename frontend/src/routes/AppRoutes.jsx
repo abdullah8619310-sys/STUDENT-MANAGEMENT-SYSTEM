@@ -5,6 +5,7 @@ import StudentsPage from '../pages/StudentsPage/StudentsPage';
 import AboutPage from '../pages/AboutPage/AboutPage';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
+import RegisterPage from '../pages/RegisterPage/RegisterPage';
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
 
 function AppRoutes() {
@@ -24,6 +25,7 @@ function AppRoutes() {
 
         <Route path="about" element={<AboutPage />} />
         <Route path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegisterPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

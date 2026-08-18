@@ -3,7 +3,7 @@ import { hashPassword, comparePassword } from "../utils/password.js";
 import { generateToken } from "../utils/token.js";
 
 export const registerUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   const hashedPassword = await hashPassword(password);
 
@@ -12,6 +12,7 @@ export const registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      role,
     },
     select: {
       id: true,
