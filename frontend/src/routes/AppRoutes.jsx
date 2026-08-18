@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout';
 import HomePage from '../pages/HomePage/HomePage';
 import StudentsPage from '../pages/StudentsPage/StudentsPage';
+import CoursesPage from '../pages/CoursesPage/CoursesPage';
 import AboutPage from '../pages/AboutPage/AboutPage';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
@@ -19,6 +20,15 @@ function AppRoutes() {
           element={
             <ProtectedRoute>
               <StudentsPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="courses"
+          element={
+            <ProtectedRoute>
+              <CoursesPage />
             </ProtectedRoute>
           }
         />

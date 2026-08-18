@@ -7,6 +7,20 @@ export function isValidEmail(email) {
   return emailPattern.test(email);
 }
 
+export function validateCourseForm(formData) {
+  const errors = {};
+
+  if (!isRequired(formData.name)) {
+    errors.name = 'Course name is required.';
+  }
+
+  if (!isRequired(formData.code)) {
+    errors.code = 'Course code is required.';
+  }
+
+  return errors;
+}
+
 export function validateStudentForm(formData) {
   const errors = {};
 

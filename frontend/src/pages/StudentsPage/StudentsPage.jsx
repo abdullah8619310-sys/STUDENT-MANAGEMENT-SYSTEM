@@ -7,6 +7,7 @@ import {
   deleteStudent,
 } from '../../services/student.service';
 import { useAuth } from '../../context/useAuth';
+import { useToast } from '../../context/useToast';
 import './StudentsPage.css';
 
 const BADGE_TONES = ['badge-primary', 'badge-success', 'badge-neutral'];
@@ -31,7 +32,9 @@ function toneForDepartment(department) {
 
 function StudentsPage() {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const isAdmin = user?.role === 'ADMIN';
+  const canRegister = isAdmin || user?.role === 'TEACHER';
 
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -123,8 +126,6 @@ function StudentsPage() {
       return;
     }
 
-    setFetchError('');
-
     try {
       await deleteStudent(studentId);
 
@@ -135,8 +136,10 @@ function StudentsPage() {
       if (editingStudentId === studentId) {
         resetForm();
       }
+
+      showToast('Student deleted.', 'success');
     } catch (error) {
-      setFetchError(error.message);
+      showToast(error.message, 'error');
     }
   }
 
@@ -151,7 +154,6 @@ function StudentsPage() {
     }
 
     setSubmitting(true);
-    setFetchError('');
 
     try {
       if (editingStudentId !== null) {
@@ -178,9 +180,14 @@ function StudentsPage() {
         setStudents((prev) => [...prev, newStudent]);
       }
 
+      showToast(
+        editingStudentId !== null ? 'Student updated.' : 'Student registered.',
+        'success'
+      );
+
       resetForm();
     } catch (error) {
-      setFetchError(error.message);
+      showToast(error.message, 'error');
     } finally {
       setSubmitting(false);
     }
@@ -192,8 +199,8 @@ function StudentsPage() {
         <div>
           <h1>Students</h1>
           <p className="students-page-subtitle">
-            Browse, search, and {isAdmin ? 'manage' : 'view'} every
-            registered student.
+            Browse and search every registered student
+            {canRegister ? ', or register a new one.' : '.'}
           </p>
         </div>
 
@@ -308,7 +315,7 @@ function StudentsPage() {
           )}
         </div>
 
-        {isAdmin && (
+        {canRegister && (
           <form
             className="student-form card"
             onSubmit={handleSubmit}

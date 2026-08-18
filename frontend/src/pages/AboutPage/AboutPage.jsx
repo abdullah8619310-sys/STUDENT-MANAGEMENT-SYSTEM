@@ -16,16 +16,26 @@ const ROLES = [
     name: 'ADMIN',
     tone: 'badge-primary',
     permissions: [
-      'View all students',
-      'Register new students',
-      'Edit existing students',
-      'Delete students',
+      'View all students and courses',
+      'Register, edit, and delete students',
+      'Create, edit, and remove courses',
+      'Enroll and drop students from courses',
     ],
   },
   {
     name: 'TEACHER',
+    tone: 'badge-warning',
+    permissions: [
+      'View all students and courses',
+      'Register new students',
+      'Create and remove courses',
+      'Enroll and drop students from courses',
+    ],
+  },
+  {
+    name: 'STUDENT',
     tone: 'badge-neutral',
-    permissions: ['View all students'],
+    permissions: ['View all students', 'View courses'],
   },
 ];
 
@@ -38,8 +48,8 @@ function AboutPage() {
           A full-stack application: a React + Vite single-page frontend
           backed by an Express REST API with a PostgreSQL database via
           Prisma. Access is protected by JWT authentication, with
-          role-based authorization distinguishing what admins and teachers
-          can do.
+          role-based authorization distinguishing what admins, teachers, and
+          students can do across both student records and courses.
         </p>
       </header>
 

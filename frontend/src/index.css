@@ -1,10 +1,10 @@
 :root {
   /* Brand */
-  --color-primary: #4f46e5;
-  --color-primary-hover: #4338ca;
-  --color-primary-light: #eef2ff;
-  --color-accent: #06b6d4;
-  --gradient-brand: linear-gradient(135deg, #4f46e5 0%, #7c3aed 55%, #06b6d4 120%);
+  --color-primary: #0d9488;
+  --color-primary-hover: #0f766e;
+  --color-primary-light: #ccfbf1;
+  --color-accent: #ea580c;
+  --gradient-brand: linear-gradient(135deg, #0f766e 0%, #0d9488 55%, #14b8a6 120%);
 
   /* Semantic */
   --color-success: #16a34a;
@@ -12,21 +12,21 @@
   --color-danger: #dc2626;
   --color-danger-hover: #b91c1c;
   --color-danger-light: #fef2f2;
-  --color-warning: #d97706;
-  --color-warning-light: #fffbeb;
+  --color-warning: #ea580c;
+  --color-warning-light: #fff7ed;
 
   /* Neutrals */
-  --color-bg: #f6f7fb;
+  --color-bg: #f7f8f6;
   --color-surface: #ffffff;
   --color-border: #e5e7eb;
   --color-border-strong: #d1d5db;
-  --color-text: #0f172a;
-  --color-text-secondary: #475569;
-  --color-text-muted: #94a3b8;
+  --color-text: #1c1917;
+  --color-text-secondary: #57534e;
+  --color-text-muted: #a8a29e;
 
   /* Type */
   --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-display: 'Lexend', var(--font-sans);
+  --font-display: 'Sora', var(--font-sans);
 
   /* Shape */
   --radius-sm: 8px;
@@ -137,11 +137,11 @@ h3 {
 .btn-primary {
   background: var(--gradient-brand);
   color: #ffffff;
-  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.28);
+  box-shadow: 0 6px 16px rgba(13, 148, 136, 0.28);
 }
 
 .btn-primary:hover:not(:disabled) {
-  box-shadow: 0 10px 22px rgba(79, 70, 229, 0.36);
+  box-shadow: 0 10px 22px rgba(13, 148, 136, 0.36);
 }
 
 .btn-outline {
@@ -222,6 +222,11 @@ h3 {
   color: var(--color-text-secondary);
 }
 
+.badge-warning {
+  background: var(--color-warning-light);
+  color: var(--color-warning);
+}
+
 .spinner {
   width: 1em;
   height: 1em;
@@ -242,4 +247,73 @@ h3 {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1.5rem;
+}
+
+/* =========================
+   Shared form fields
+   ========================= */
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-field label {
+  color: var(--color-text-secondary);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  color: var(--color-text);
+  font-size: 0.94rem;
+  font-family: var(--font-sans);
+  outline: none;
+  resize: vertical;
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.4rem;
+}
+
+.error-text {
+  color: var(--color-danger);
+  font-size: 0.83rem;
+}
+
+.state-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2.5rem 1rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.spinner-dark {
+  border-color: var(--color-border-strong);
+  border-top-color: var(--color-primary);
+  width: 1.4em;
+  height: 1.4em;
 }

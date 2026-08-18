@@ -65,6 +65,12 @@ function Navbar() {
             Students
           </NavLink>
 
+          {isAuthenticated && (
+            <NavLink to="/courses" className={linkClass} onClick={closeMenu}>
+              Courses
+            </NavLink>
+          )}
+
           <NavLink to="/about" className={linkClass} onClick={closeMenu}>
             About
           </NavLink>

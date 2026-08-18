@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import StudentsPage from '../pages/StudentsPage/StudentsPage';
 import { AuthProvider } from '../context/AuthContext.jsx';
+import { ToastProvider } from '../context/ToastProvider.jsx';
 import { getStudents } from '../services/student.service';
 
 vi.mock('../services/student.service', () => ({
@@ -35,9 +36,11 @@ describe('StudentsPage Form Validation', () => {
   it('shows validation errors when submitting empty form', async () => {
     render(
       <MemoryRouter>
-        <AuthProvider>
-          <StudentsPage />
-        </AuthProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <StudentsPage />
+          </AuthProvider>
+        </ToastProvider>
       </MemoryRouter>
     );
 
