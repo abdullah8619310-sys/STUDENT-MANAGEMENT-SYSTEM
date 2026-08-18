@@ -31,10 +31,21 @@ export async function apiRequest(endpoint, options = {}) {
   const data = text ? JSON.parse(text) : null;
 
   if (!response.ok) {
-    const message =
+    let message =
       data?.message ||
       DEFAULT_MESSAGES[response.status] ||
       "Something went wrong.";
+
+    if (Array.isArray(data?.errors) && data.errors.length > 0) {
+      const details = data.errors
+        .map((issue) => issue.message)
+        .filter(Boolean)
+        .join(" ");
+
+      if (details) {
+        message = details;
+      }
+    }
 
     const error = new Error(message);
     error.status = response.status;
