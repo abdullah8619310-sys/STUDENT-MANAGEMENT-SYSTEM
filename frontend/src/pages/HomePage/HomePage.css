@@ -60,8 +60,8 @@
 }
 
 .hero-actions .btn-primary {
-  background: #ffffff;
-  color: var(--color-primary-hover);
+  background: #000000;
+  color: var(--color-accent-hover);
   box-shadow: var(--shadow-md);
 }
 

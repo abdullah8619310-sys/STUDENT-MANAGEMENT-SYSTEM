@@ -158,9 +158,9 @@
   flex-wrap: wrap;
   gap: 0.9rem;
   padding: 0.9rem 1.35rem;
-  border-top: 1px solid #f1f5f9;
-  border-bottom: 1px solid #f1f5f9;
-  background: #faf9f7;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-bg);
 }
 
 .student-field {
