@@ -3,10 +3,12 @@ function AboutPage() {
     <section className="about-page">
       <h1>About This Project</h1>
       <p>
-        The Student Management System is a Single Page Application built with
-        React and Vite. It currently stores student data in memory using React
-        state. In future iterations, it will connect to a backend API for
-        persistent storage.
+        The Student Management System is a full-stack application: a React +
+        Vite single-page frontend backed by an Express REST API with a
+        PostgreSQL database via Prisma. Access is protected by JWT
+        authentication, with role-based authorization distinguishing ADMIN
+        and TEACHER accounts — only admins can register, edit, or delete
+        students.
       </p>
     </section>
   );

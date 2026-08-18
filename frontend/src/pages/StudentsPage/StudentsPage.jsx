@@ -127,7 +127,6 @@ function StudentsPage() {
           email: formData.email.trim(),
           department: formData.department.trim(),
           rollNumber: formData.rollNumber.trim(),
-          userId: user.id,
         });
 
         setStudents((prev) =>
@@ -141,7 +140,6 @@ function StudentsPage() {
           email: formData.email.trim(),
           department: formData.department.trim(),
           rollNumber: formData.rollNumber.trim(),
-          userId: user.id,
         });
 
         setStudents((prev) => [...prev, newStudent]);

@@ -3,7 +3,7 @@ import { useAuth } from '../../context/useAuth';
 import './Navbar.css';
 
 function Navbar() {
-  const { user, logout } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
 
   const linkClass = ({ isActive }) =>
     isActive ? 'nav-link active' : 'nav-link';
@@ -25,13 +25,21 @@ function Navbar() {
           About
         </NavLink>
 
-        <span className='nav-user'>
-          {user?.name} ({user?.role})
-        </span>
+        {isAuthenticated ? (
+          <>
+            <span className='nav-user'>
+              {user?.name} ({user?.role})
+            </span>
 
-        <button type='button' className='logout-button' onClick={logout}>
-          Logout
-        </button>
+            <button type='button' className='logout-button' onClick={logout}>
+              Logout
+            </button>
+          </>
+        ) : (
+          <NavLink to='/login' className={linkClass}>
+            Login
+          </NavLink>
+        )}
       </div>
     </nav>
   );

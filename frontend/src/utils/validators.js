@@ -7,10 +7,6 @@ export function isValidEmail(email) {
   return emailPattern.test(email);
 }
 
-export function isMinimumAge(age, minimumAge = 18) {
-  return Number(age) >= minimumAge;
-}
-
 export function validateStudentForm(formData) {
   const errors = {};
 

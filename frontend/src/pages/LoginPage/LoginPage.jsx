@@ -1,5 +1,5 @@
 ﻿import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { loginUser } from '../../services/auth.service';
 import { useAuth } from '../../context/useAuth';
 import { isRequired, isValidEmail } from '../../utils/validators';
@@ -17,6 +17,8 @@ function LoginPage() {
 
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname ?? '/students';
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -62,7 +64,7 @@ function LoginPage() {
 
       login(authData);
 
-      navigate('/students');
+      navigate(from, { replace: true });
     } catch (error) {
       setServerError(error.message);
     } finally {

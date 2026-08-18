@@ -1,16 +1,22 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
-import { describe, it, expect } from 'vitest';
+import { MemoryRouter } from 'react-router-dom';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import StudentsPage from '../pages/StudentsPage/StudentsPage';
 import { AuthProvider } from '../context/AuthContext.jsx';
+import { getStudents } from '../services/student.service';
+
+vi.mock('../services/student.service', () => ({
+  getStudents: vi.fn(),
+  createStudent: vi.fn(),
+  updateStudent: vi.fn(),
+  deleteStudent: vi.fn(),
+}));
 
 describe('StudentsPage Form Validation', () => {
-  it('shows validation errors when submitting empty form', () => {
-    localStorage.setItem(
-      'token',
-      'test-token'
-    );
+  beforeEach(() => {
+    getStudents.mockResolvedValue([]);
 
+    localStorage.setItem('token', 'test-token');
     localStorage.setItem(
       'user',
       JSON.stringify({
@@ -19,16 +25,23 @@ describe('StudentsPage Form Validation', () => {
         role: 'ADMIN',
       })
     );
+  });
 
+  afterEach(() => {
+    localStorage.clear();
+    vi.clearAllMocks();
+  });
+
+  it('shows validation errors when submitting empty form', async () => {
     render(
-      <BrowserRouter>
+      <MemoryRouter>
         <AuthProvider>
           <StudentsPage />
         </AuthProvider>
-      </BrowserRouter>
+      </MemoryRouter>
     );
 
-    fireEvent.click(screen.getByText('Register Student'));
+    fireEvent.click(await screen.findByText('Register Student'));
 
     expect(screen.getByText('Name is required.')).toBeInTheDocument();
     expect(screen.getByText('Email is required.')).toBeInTheDocument();
