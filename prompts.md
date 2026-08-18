@@ -161,6 +161,22 @@ This document records the AI-assisted development process for the **Student Mana
 
 ---
 
+## Post-Week-3 — Frontend Visual Redesign
+
+**Prompt given to Claude Code:**
+> "The UI is too plain, no color or layout — make it look professional and interactive like a real product. Write good CSS, add a color scheme, better layout, buttons, and proper elements."
+
+**Outcome:**
+- Introduced a design-token system in `index.css` (colors, an Inter/Lexend type scale, shadows, radii) and a shared `.btn`/`.badge`/`.card` utility layer reused across every page instead of one-off styles per component
+- Redesigned every page: a hero + feature-grid `HomePage`, a tech-stack/roles `AboutPage`, a two-panel `LoginPage` (brand panel + form, icon-prefixed inputs, show/hide password), a `StudentsPage` with avatar initials, color-coded department badges, a live client-side search box, and proper loading/empty states, and a styled `NotFoundPage`
+- Redesigned `Navbar` with a logo mark, sticky header, user avatar, and a responsive hamburger menu for mobile
+- **Found and fixed a real bug while doing this:** `StudentsPage.css` styled classes (`.student-card-details`, `.detail-label`, `.detail-value`, `.edit-button`, `.delete-button`) that didn't match the actual JSX class names (`.student-card-body`, `.field-label`, `.field-value`, `.btn-edit`, `.btn-delete`) — a leftover mismatch from an earlier edit, meaning the student card body and action buttons had been rendering completely unstyled
+- Verified with a Playwright-driven walkthrough of the running app (desktop and a 390px mobile viewport): home, about, login, the search filter, empty-form validation, and the mobile menu, with zero browser console errors. Caught and fixed a genuine layout bug this way — the mobile hamburger button was being squeezed to ~16px wide by the non-wrapping navbar brand text (`flex-shrink` wasn't pinned to `0`), which a static code read wouldn't have surfaced
+
+**Verification:** `npm run lint` clean, `npm test` — 3 files / 5 tests passing, `npx vite build` succeeds.
+
+---
+
 ## Phase 1 Completion Summary
 
 All Phase 1 (Weeks 1–3) requirements from the internship plan are satisfied:
