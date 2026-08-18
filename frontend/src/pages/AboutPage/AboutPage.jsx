@@ -68,7 +68,7 @@ function AboutPage() {
         <h2>Roles &amp; Permissions</h2>
         <div className="roles-grid">
           {ROLES.map((role) => (
-            <div className="role-card card" key={role.name}>
+            <div className="role-card card card-interactive" key={role.name}>
               <span className={`badge ${role.tone}`}>{role.name}</span>
               <ul>
                 {role.permissions.map((permission) => (

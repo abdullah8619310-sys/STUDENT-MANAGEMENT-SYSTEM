@@ -23,7 +23,15 @@
   border: 1.5px solid var(--color-border-strong);
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: border-color 0.18s ease, background-color 0.18s ease;
+  transition:
+    border-color 0.18s ease,
+    background-color 0.18s ease,
+    transform 0.15s var(--ease-snappy);
+}
+
+.role-option:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
 }
 
 .role-option input {

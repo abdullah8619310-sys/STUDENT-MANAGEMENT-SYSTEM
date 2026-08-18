@@ -233,7 +233,7 @@ function CoursesPage() {
               );
 
               return (
-                <div className="course-card card" key={course.id}>
+                <div className="course-card card card-interactive" key={course.id}>
                   <div className="course-card-header">
                     <div>
                       <h3 className="course-name">{course.name}</h3>
