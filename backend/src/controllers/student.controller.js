@@ -1,7 +1,7 @@
 import { prisma } from "../config/db.js";
 
 export const createStudent = async (req, res) => {
-  const { name, email, rollNumber, department, userId } = req.body;
+  const { name, email, rollNumber, department } = req.body;
 
   const student = await prisma.student.create({
     data: {
@@ -9,7 +9,7 @@ export const createStudent = async (req, res) => {
       email,
       rollNumber,
       department,
-      userId,
+      userId: req.user.userId,
     },
   });
 
@@ -43,7 +43,7 @@ export const getStudentById = async (req, res) => {
 export const updateStudent = async (req, res) => {
   const { id } = req.params;
 
-  const { name, email, rollNumber, department, userId } = req.body;
+  const { name, email, rollNumber, department } = req.body;
 
   const student = await prisma.student.update({
     where: {
@@ -54,7 +54,6 @@ export const updateStudent = async (req, res) => {
       email,
       rollNumber,
       department,
-      userId,
     },
   });
 

@@ -46,7 +46,6 @@ describe("Integration: authentication and student creation", () => {
         email: `integration-student-${Date.now()}@example.com`,
         rollNumber: testRollNumber,
         department: "IT",
-        userId: adminUser.id,
       });
 
     expect(createResponse.status).toBe(201);

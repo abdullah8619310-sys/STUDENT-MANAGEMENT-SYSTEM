@@ -31,13 +31,13 @@ const newStudent = {
   email: "sara@example.com",
   rollNumber: "BSIT-004",
   department: "IT",
-  userId: 1,
 };
 
 
 const createdStudent = {
   id: 1,
   ...newStudent,
+  userId: 1,
 };
 
 
@@ -55,7 +55,7 @@ expect(res.body).toEqual(createdStudent);
 
 
 expect(prisma.student.create).toHaveBeenCalledWith({
-  data: newStudent,
+  data: { ...newStudent, userId: 1 },
 });
 
 });
@@ -69,7 +69,6 @@ const duplicateStudent = {
   email: "sara@example.com",
   rollNumber: "BSIT-004",
   department: "IT",
-  userId: 1,
 };
 
 
@@ -99,7 +98,7 @@ expect(res.body).toEqual({
 
 
 expect(prisma.student.create).toHaveBeenCalledWith({
-  data: duplicateStudent,
+  data: { ...duplicateStudent, userId: 1 },
 });
 
 });
@@ -195,7 +194,6 @@ const updatePayload = {
   email: "ghost@example.com",
   rollNumber: "BSIT-999",
   department: "IT",
-  userId: 1,
 };
 
 

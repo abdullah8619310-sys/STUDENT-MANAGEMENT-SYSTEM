@@ -28,12 +28,12 @@ describe("createStudent controller", () => {
     prisma.student.create.mockResolvedValue(mockStudent);
 
     const req = {
+      user: { userId: 1, role: "ADMIN" },
       body: {
         name: "Sara Khan",
         email: "sara@example.com",
         rollNumber: "BSIT-004",
         department: "IT",
-        userId: 1,
       },
     };
 
@@ -45,7 +45,7 @@ describe("createStudent controller", () => {
     await createStudent(req, res);
 
     expect(prisma.student.create).toHaveBeenCalledWith({
-      data: req.body,
+      data: { ...req.body, userId: 1 },
     });
 
     expect(res.status).toHaveBeenCalledWith(201);
@@ -197,7 +197,6 @@ describe("updateStudent controller", () => {
         email: "sara@example.com",
         rollNumber: "BSIT-004",
         department: "Computer Science",
-        userId: 1,
       },
     };
 
