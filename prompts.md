@@ -223,6 +223,23 @@ This document records the AI-assisted development process for the **Student Mana
 
 ---
 
+## Post-Week-3 — Second Theme Pass: New Palette, Button System, Micro-interactions
+
+**Prompt given to Claude Code:**
+> "Change the color again, adjust the buttons properly, use the correct font, and make the UI interactive with changes in the code and logic."
+
+**Clarified before starting** (to avoid another round of guessing on a purely aesthetic ask): a fresh, distinct palette vs. refining the existing one; whether "buttons" meant sizing/spacing or a full redesign; and what "interactive" meant concretely (hover/click animations, page transitions, or both). Answers: fresh palette, full button redesign, hover/click animations.
+
+**Outcome:**
+- Replaced the teal/amber palette from the previous pass with green/gold (every hardcoded rgba value again, not just the CSS custom properties — the same category of miss as the first color pass), and swapped the Sora heading font for Plus Jakarta Sans
+- Rebuilt the shared `.btn` system in `index.css`: larger touch targets, a snappy cubic-bezier hover lift, a scale-down press state, `:focus-visible` rings for keyboard users, and a new `.btn-lg` size
+- Added a `.card-interactive` utility and applied it to `CoursesPage`/`AboutPage` cards that didn't have hover feedback yet; extended the existing `HomePage`/`StudentsPage` card hovers with icon/avatar micro-animations (scale, slight rotation) and the same snappy easing as the buttons, so the whole interaction language is consistent
+- Navbar logo tilts on hover, nav links lift slightly, the register page's role-picker cards now respond to hover instead of only to selection
+
+**Verification:** lint clean, 5/5 tests passing, build succeeds, and a Playwright pass across Home, Login, Register, Students, Courses, and About — including capturing hover states — with zero console errors.
+
+---
+
 ## Phase 1 Completion Summary
 
 All Phase 1 (Weeks 1–3) requirements from the internship plan are satisfied:
