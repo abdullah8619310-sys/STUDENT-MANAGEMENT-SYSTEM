@@ -177,6 +177,24 @@ This document records the AI-assisted development process for the **Student Mana
 
 ---
 
+## Post-Week-3 — STUDENT Role & Self-Service Registration
+
+**Prompt given to Claude Code:**
+> "Add another role for students — one that can only view students and can log in."
+
+**Outcome:**
+- Added `STUDENT` to the Prisma `Role` enum via a proper migration (`add_student_role`)
+- `auth.validator.js`'s `registerSchema` now accepts an optional `role` restricted to `z.enum(["TEACHER", "STUDENT"])` — `ADMIN` is not a valid option, so it can't be self-assigned through registration; admin accounts stay provisioned directly in the database, matching how `ADMIN` already worked before this change
+- `registerUser` passes the validated role through to `prisma.user.create` (previously ignored the field entirely and always fell back to the schema's `TEACHER` default)
+- No authorization changes were needed: `GET /api/students` already only required `authenticate` (any role), and write operations already required `authorize("ADMIN")` — so `STUDENT` automatically got the same read-only access as `TEACHER`
+- New `RegisterPage` (role-picker card, matches `LoginPage`'s two-panel layout) at `/register`, linked from `LoginPage`; registering logs the user in immediately
+
+**Caught during verification:** a stale backend process left running from the earlier UI-testing session was still bound to port 5000 with the old code, so the first smoke test looked like the role feature was broken (`STUDENT` silently became `TEACHER`, `ADMIN` self-registration wasn't rejected). Killing the stale process and restarting against the current code showed the actual (correct) behavior — a reminder to double check *which* process is answering before trusting a live test's result.
+
+**Verification:** Backend — 30/30 unit/route tests passing, lint clean, and a real-database smoke test (`STUDENT` register → 200 on `GET /students`, 403 on `POST /students`; `role:"ADMIN"` in the register body → 400). Frontend — lint clean, 5/5 tests passing, build succeeds, and a Playwright walkthrough of the full register-as-STUDENT flow (role card pre-selected, submits, lands on the read-only Students view with no admin controls) with zero console errors.
+
+---
+
 ## Phase 1 Completion Summary
 
 All Phase 1 (Weeks 1–3) requirements from the internship plan are satisfied:
